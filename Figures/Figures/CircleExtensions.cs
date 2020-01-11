@@ -13,24 +13,10 @@ namespace Figures
 		/// строковое представление фигуры.</summary>
 		public static void OutputToFile(this Circle circle)
 		{
+			//Абсолютный путь файла
 			var fileDirectory = Path.Combine(Environment.CurrentDirectory, "Figures.txt");
-			if(!File.Exists(fileDirectory))
-			{
-				// Create a file to write to.
-				using(StreamWriter sw = File.CreateText(fileDirectory))
-				{
-					sw.WriteLine("Hello");
-					sw.WriteLine("And");
-					sw.WriteLine("Welcome");
-				}
-			}
-			else
-			{
-				FileStream fileStream = new FileStream(fileDirectory);
-			}
-			Console.WriteLine(fileDirectory);
-
-			//File.WriteAllText("Figures.txt", circle.ToString());
+			//Если файл существует, то текст добавляется в конец файл. Если файла нет, то он создается. 
+			File.AppendAllText(fileDirectory, circle.ToString());
 		}
 	}
 }
