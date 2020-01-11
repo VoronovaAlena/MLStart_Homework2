@@ -9,9 +9,9 @@ namespace Figures
 	/// <summary>Определение фигуры и её свойств.</summary>
 	public interface IFigure
 	{
-		double X { get; }
+		double X { get; set; }
 
-		double Y { get; }
+		double Y { get; set; }
 
 		/// <summary>Метод, реализующий движение фигуры вправо.</summary>
 		double MoveRight(double x);
