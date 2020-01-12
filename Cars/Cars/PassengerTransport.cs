@@ -18,6 +18,10 @@ namespace Cars
 				{
 					Console.WriteLine("Текущая скорость должна быть от 0 до 100 км/ч!");
 				}
+				else if(FuelType == Fuels.NinetyFiveBenzine.ToString())
+				{
+					CurrentSpeed = value + 10;
+				}
 				else
 				{
 					CurrentSpeed = value;
@@ -45,14 +49,11 @@ namespace Cars
 			get => FuelType;
 			set
 			{
-				string fuer1 = "95й бензин";
-				string fuer2 = "92й бензин";
-
-				if(value == fuer1)
+				if(value == Fuels.NinetyFiveBenzine.ToString())
 				{
 					FuelType = value;
 				}
-				else if(value == fuer2)
+				else if(value == Fuels.NinetyTwoBenzine.ToString())
 				{
 					FuelType = value;
 				}
@@ -63,6 +64,7 @@ namespace Cars
 				}
 			}
 		}
+
 
 		public PassengerTransport()
 		{
@@ -82,13 +84,13 @@ namespace Cars
 			FuelType = fuelType;
 		}
 
-		public void ChangingTheCurrentSpeed(double currentSpeed, double change, double maxSpeed, bool increase)
+		public void ChangingTheCurrentSpeed(double change, bool increase)
 		{
 			if(increase)
 			{
-				if(currentSpeed + change <= maxSpeed)
+				if(CurrentSpeed + change <= MaxSpeed)
 				{
-					currentSpeed = currentSpeed + change;
+					CurrentSpeed = CurrentSpeed + change;
 				}
 				else
 				{
@@ -97,9 +99,9 @@ namespace Cars
 			}
 			else
 			{
-				if(currentSpeed - change >= 0)
+				if(CurrentSpeed - change >= 0)
 				{
-					currentSpeed = currentSpeed - change;
+					CurrentSpeed = CurrentSpeed - change;
 				}
 				else
 				{
@@ -108,10 +110,11 @@ namespace Cars
 			}
 		}
 
-		public bool CheckingForFuel(string fuelType)
+		public bool CheckingForFuel()
 		{
-			if(fuelType != null)
+			if(FuelType != null)
 			{
+				if()
 				return true;
 			}
 			else
@@ -120,19 +123,14 @@ namespace Cars
 			}
 		}
 
-		public double Move(double hours, double currentSpeed)
+		public double Move(double hours)
 		{
-			return hours * currentSpeed;
-		}
-
-		public double PossibilityOfMovement(double hours, double currentSpeed)
-		{
-			throw new NotImplementedException();
+			return hours * CurrentSpeed;
 		}
 
 		public void DisplayTransportMileage()
 		{
-			throw new NotImplementedException();
+			Console.WriteLine("Пробег легкового автомобиля равен " + Mileage);
 		}
 	}
 }

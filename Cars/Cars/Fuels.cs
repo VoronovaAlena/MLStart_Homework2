@@ -6,16 +6,10 @@ using System.Threading.Tasks;
 
 namespace Cars
 {
-	class Program
+	enum Fuels
 	{
-		static void Main(string[] args)
-		{
-			
-			
-			
-			
-			
-			Console.ReadKey();
-		}
+		NinetyFiveBenzine,
+		NinetyTwoBenzine,
+		Diesel
 	}
 }

@@ -8,24 +8,38 @@ namespace Cars
 {
 	public interface ITransport
 	{
+		/// <summary>Регистрационный номер транспорта.</summary>
 		double RegistrationNumber { get; set; }
 
+		/// <summary>Текущая скорость транспорта.</summary>
 		double CurrentSpeed { get; set; }
 
+		/// <summary>Максимальная скорость транспорта.</summary>
 		double MaxSpeed { get; set; }
 
+		/// <summary>Пробег транспорта.</summary>
 		double Mileage { get; set; }
 
+		/// <summary>Тип топлива транспорта.</summary>
 		string FuelType { get; set; }
 
-		double Move(double hours, double currentSpeed);
+		/// <summary>Метод, который принимает количество часов в пути 
+		/// и вычисляет пройденное расстояние.</summary>
+		/// <param name="hours">Количество часов в пути.</param>
+		double Move(double hours);
 
-		void ChangingTheCurrentSpeed(double currentSpeed, double change, double maxSpeed, bool increase);
+		/// <summary>
+		/// Метод, увеличивающий или уменьшающий текущую скорость транспорта на заданное количество км/ч. 
+		/// </summary>
+		/// <param name="change">На сколько изменяется скорость в км/ч.</param>
+		/// <param name="increase">True - увеличение скорости, False - уменьшение скорости.</param>
+		void ChangingTheCurrentSpeed( double change, bool increase);
 
-		bool CheckingForFuel(string fuelType);
+		bool CheckingForFuel();
 
-		double PossibilityOfMovement(double hours, double currentSpeed);
-
+		/// <summary>
+		/// Метод, отображающий прбег транспорта.
+		/// </summary>
 		void DisplayTransportMileage();
 	}
 }
