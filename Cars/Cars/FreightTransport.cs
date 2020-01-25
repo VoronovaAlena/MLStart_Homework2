@@ -12,7 +12,7 @@ namespace Cars
 		{
 			set
 			{
-				if(value > 0 && value <= 100) _currentSpeed = value - 2.5 * Cargo;
+				if(value > 0 && value <= 100) _currentSpeed = value;
 			}
 			get => _currentSpeed;
 		}
@@ -125,7 +125,7 @@ namespace Cars
 
 		public void Go(double hours)
 		{
-			var distance = hours * CurrentSpeed;
+			var distance = hours * (CurrentSpeed - 2.5 * Cargo);
 
 			if(distance > 250)
 			{
