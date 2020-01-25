@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace Figures
 {
 	/// <summary>Класс, описывающий прямоугольник.</summary>
@@ -30,7 +25,13 @@ namespace Figures
 			Width  = 30;
 		}
 
-		/// <summary>Конструктор с параметрами.</summary>
+		/// <summary>
+		/// Конструктор с параметрами.
+		/// </summary>
+		/// <param name="x">Координата по оси X.</param>
+		/// <param name="y">Координата по оси Y.</param>
+		/// <param name="lenght">Длинна прямоугольника.</param>
+		/// <param name="width">Ширина прямоугольника.</param>
 		public Rectangle(double x, double y, double lenght, double width)
 		{
 			this.X = x;
@@ -68,12 +69,12 @@ namespace Figures
 		/// <summary>Метод, рассчитывающий периметр квадрата.</summary>
 		public override double Perimeter() => 2 * (Length + Width);
 
-		public override double MoveDown(double y) => Y = y - 1;
+		public override double MoveDown() => Y -= 1;
 
-		public override double MoveLeft(double x) => X = x - 1;
+		public override double MoveLeft() => X -= 1;
 
-		public override double MoveRight(double x) => X = x - 1;
+		public override double MoveRight() => X -= 1;
 
-		public override double MoveUp(double y) => Y = y - 1;
+		public override double MoveUp() => Y -= 1;
 	}
 }

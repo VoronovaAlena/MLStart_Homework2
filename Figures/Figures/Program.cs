@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Figures
 {
@@ -27,20 +23,20 @@ namespace Figures
 			Console.WriteLine("Площадь прямоугольника равна: " + rectangle.AreaCalculation());
 			Console.WriteLine("Периметр прямоугольника равен: " + rectangle.Perimeter());
 
-			circle.MoveDown(circle.Y);
-			circle.MoveLeft(circle.X);
-			circle.MoveRight(circle.X);
-			circle.MoveUp(circle.Y);
+			circle.MoveDown();
+			circle.MoveLeft();
+			circle.MoveRight();
+			circle.MoveUp();
 
-			square.MoveDown(square.Y);
-			square.MoveLeft(square.X);
-			square.MoveRight(square.X);
-			square.MoveUp(square.Y);
+			square.MoveDown();
+			square.MoveLeft();
+			square.MoveRight();
+			square.MoveUp();
 
-			rectangle.MoveDown(rectangle.Y);
-			rectangle.MoveLeft(rectangle.X);
-			rectangle.MoveRight(rectangle.X);
-			rectangle.MoveUp(rectangle.Y);
+			rectangle.MoveDown();
+			rectangle.MoveLeft();
+			rectangle.MoveRight();
+			rectangle.MoveUp();
 
 			Console.WriteLine(circle.ToString());
 			Console.WriteLine(square.ToString());

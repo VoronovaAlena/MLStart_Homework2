@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace Figures
 {
 	/// <summary>Класс, описывающий квадрат.</summary>
@@ -26,7 +21,12 @@ namespace Figures
 			Side = 25;
 		}
 
-		/// <summary>Конструктор с параметрами.</summary>
+		/// <summary>
+		/// Конструктор с параметрами.
+		/// </summary>
+		/// <param name="x">Координата по оси X.</param>
+		/// <param name="y">Координата по оси y.</param>
+		/// <param name="side">Длина стороны квадрата.</param>
 		public Square(double x, double y, double side)
 		{
 			this.X = x;
@@ -54,12 +54,12 @@ namespace Figures
 
 		public override double Perimeter() => Side * 4;
 
-		public override double MoveDown(double y) => Y = y - 1;
+		public override double MoveDown() => Y -= 1;
 
-		public override double MoveLeft(double x) => X = x - 1;
+		public override double MoveLeft() => X -= 1;
 
-		public override double MoveRight(double x) => X = x - 1;
+		public override double MoveRight() => X -= 1;
 
-		public override double MoveUp(double y) => Y = y - 1;
+		public override double MoveUp() => Y -= 1;
 	}
 }

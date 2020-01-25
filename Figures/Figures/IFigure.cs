@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace Figures
 {
 	/// <summary>Определение фигуры и её свойств.</summary>
@@ -14,16 +9,16 @@ namespace Figures
 		double Y { get; set; }
 
 		/// <summary>Метод, реализующий движение фигуры вправо.</summary>
-		double MoveRight(double x);
+		double MoveRight();
 
 		/// <summary>Метод, реализующий движение фигуры влево.</summary>
-		double MoveLeft(double x);
+		double MoveLeft();
 
 		/// <summary>Метод, реализующий движение фигуры вверх.</summary>
-		double MoveUp(double y);
+		double MoveUp();
 
 		/// <summary>Метод, реализующий движение фигуры вниз.</summary>
-		double MoveDown(double y);
+		double MoveDown();
 
 		/// <summary>Метод, расчитывающий площадь фигуры.</summary>
 		double AreaCalculation();

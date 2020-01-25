@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Figures
 {
@@ -26,7 +22,12 @@ namespace Figures
 			Radius = 25;
 		}
 
-		/// <summary>Конструктор с параметрами.</summary>
+		/// <summary>
+		/// Конструктор с параметрами.
+		/// </summary>
+		/// <param name="x">Координата по оси X.</param>
+		/// <param name="y">Координата по оси y.</param>
+		/// <param name="radius">Радиус окружности.</param>
 		public Circle(double x, double y, double radius)
 		{
 			this.X      = x;
@@ -52,13 +53,13 @@ namespace Figures
 
 		public virtual double AreaCalculation() => Math.Pow(Radius, 2) * Math.PI;
 
-		public virtual double MoveDown(double y) => Y = y - 1;
+		public virtual double MoveDown() => Y -= 1;
 
-		public virtual double MoveLeft(double x) => X = x - 1;
+		public virtual double MoveLeft() => X -= 1;
 
-		public virtual double MoveRight(double x) => X = x - 1;
+		public virtual double MoveRight() => X -= 1;
 
-		public virtual double MoveUp(double y) => Y = y - 1;
+		public virtual double MoveUp() => Y -= 1;
 
 		public virtual double Perimeter() => 2 * Math.PI * Radius;
 	}
