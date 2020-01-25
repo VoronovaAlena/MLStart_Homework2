@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Cars
+﻿namespace Cars
 {
 	public interface ITransport
 	{
 		/// <summary>Регистрационный номер транспорта.</summary>
-		double RegistrationNumber { get; set; }
+		int RegistrationNumber { get; set; }
 
 		/// <summary>Текущая скорость транспорта.</summary>
 		double CurrentSpeed { get; set; }
@@ -23,7 +17,7 @@ namespace Cars
 		/// <summary>Тип топлива транспорта.</summary>
 		string FuelType { get; set; }
 
-		/// <summary>Метод, который принимает количество часов в пути 
+		/// <summary>Метод, который принимает количество часов в пути.
 		/// и вычисляет пройденное расстояние.</summary>
 		/// <param name="hours">Количество часов в пути.</param>
 		double Move(double hours);
@@ -35,11 +29,21 @@ namespace Cars
 		/// <param name="increase">True - увеличение скорости, False - уменьшение скорости.</param>
 		void ChangingTheCurrentSpeed( double change, bool increase);
 
-		bool CheckingForFuel();
-
 		/// <summary>
-		/// Метод, отображающий прбег транспорта.
+		/// Метод, отображающий пробег транспорта.
 		/// </summary>
 		void DisplayTransportMileage();
+
+		/// <summary>
+		/// Метод реализующий движение транспорта.
+		/// </summary>
+		/// <param name="hours">Время в пути</param>
+		void Go(double hours);
+
+		/// <summary>
+		/// Заправка топливом.
+		/// </summary>
+		/// <param name="flueType">Тип топлива</param>
+		void Refill(string flueType);
 	}
 }

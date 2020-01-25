@@ -1,136 +1,133 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Cars
 {
+	/// <summary>
+	/// Класс описывающий легковые автомобили
+	/// </summary>
 	public class PassengerTransport : ITransport
 	{
-		public double RegistrationNumber { get; set; }
+		public int RegistrationNumber { get; set; }
+
+		private string _flueType;
+		public string FuelType 
+		{
+			set
+			{
+				if(value == "95й бензин") _flueType = value;
+				else if(value == "92й бензин") _flueType = value;
+			}
+			get => _flueType;
+		}
+
+		private double _currentSpeed;
 		public double CurrentSpeed 
 		{
-			get => CurrentSpeed;
 			set
 			{
-				if(value >= 0 && value <= 100)
+				if(value > 0 && value <= 100)
 				{
-					Console.WriteLine("Текущая скорость должна быть от 0 до 100 км/ч!");
-				}
-				else if(FuelType == Fuels.NinetyFiveBenzine.ToString())
-				{
-					CurrentSpeed = value + 10;
-				}
-				else
-				{
-					CurrentSpeed = value;
+					if(_flueType == "95й бензин")
+						_currentSpeed = value + 10;
+					else _currentSpeed = value;
 				}
 			}
+			get => _currentSpeed;
 		}
+
+		private double _maxSpeed;
 		public double MaxSpeed 
 		{
-			get => MaxSpeed;
 			set
 			{
-				if(value >= 0 && value <= 100)
-				{
-					Console.WriteLine("Максимальная скорость должна быть от 0 до 100 км/ч!");
-				}
-				else
-				{
-					MaxSpeed = value;
-				}
+				if(value > 0 && value < 100) _maxSpeed = value;
 			}
+			get => _maxSpeed;
 		}
 		public double Mileage { get ; set; }
-		public string FuelType
-		{
-			get => FuelType;
-			set
-			{
-				if(value == Fuels.NinetyFiveBenzine.ToString())
-				{
-					FuelType = value;
-				}
-				else if(value == Fuels.NinetyTwoBenzine.ToString())
-				{
-					FuelType = value;
-				}
-				else
-				{
-					Console.WriteLine("Выберите топливо для автомобиля: " +
-						"95й бензин или 92й бензин!");
-				}
-			}
-		}
 
-
+		/// <summary>
+		/// Конструктор без параметров, параметры устанавливаются по умолчанию
+		/// </summary>
 		public PassengerTransport()
 		{
+			RegistrationNumber = 001;
+			FuelType           = "92й бензин";
+			CurrentSpeed       = 0;
+			MaxSpeed           = 100;
+			Mileage            = 0;
 		}
 
+		/// <summary>
+		/// Конструктор с параметрами.
+		/// </summary>
+		/// <param name="registrationNumber">Регистрационный номер автомобиля.</param>
+		/// <param name="fuelType">Тип топлива автомобиля ("92й бензин" или "95й бензин").</param>
+		/// <param name="currentSpeed">Текущая скорость автомобиля в км/ч.</param>
+		/// <param name="maxSpeed">Максимальная скорость автомобиля в км/ч.</param>
+		/// <param name="mileage">Пробег автомобиля в км.</param>
 		public PassengerTransport(
-			double registrationNumber,
+			int registrationNumber,
 			double currentSpeed,
 			double maxSpeed,
-			double mileage,
-			string fuelType)
+			string fuelType,
+			double mileage)
 		{
 			RegistrationNumber = registrationNumber;
-			CurrentSpeed = currentSpeed;
-			MaxSpeed = maxSpeed;
-			Mileage = mileage;
-			FuelType = fuelType;
+			FuelType           = fuelType;
+			CurrentSpeed       = currentSpeed;
+			MaxSpeed           = maxSpeed;
+			Mileage            = mileage;
 		}
 
 		public void ChangingTheCurrentSpeed(double change, bool increase)
 		{
 			if(increase)
 			{
-				if(CurrentSpeed + change <= MaxSpeed)
-				{
-					CurrentSpeed = CurrentSpeed + change;
-				}
-				else
-				{
-					Console.WriteLine("Текущая скорость не должна превышать максимальную!");
-				}
+				if(CurrentSpeed + change <= MaxSpeed) CurrentSpeed += change;
+				else Console.WriteLine("Текущая скорость не должна превышать максимальную!");
 			}
 			else
 			{
-				if(CurrentSpeed - change >= 0)
-				{
-					CurrentSpeed = CurrentSpeed - change;
-				}
-				else
-				{
-					Console.WriteLine("Текущая скорость не должна быть меньше нуля!");
-				}
+				if(CurrentSpeed - change >= 0) CurrentSpeed -= change;
+				else Console.WriteLine("Текущая скорость не должна быть меньше нуля!");
 			}
 		}
 
-		public bool CheckingForFuel()
+		/// <summary>
+		/// Делегат
+		/// </summary>
+		public delegate void MethodContainer();
+
+		/// <summary>
+		/// Событие, возникающее, когда заканчивается топливо.
+		/// </summary>
+		public event MethodContainer NoFuel;
+
+		public void Go(double hours)
 		{
-			if(FuelType != null)
+			var distance = hours * CurrentSpeed;
+			
+			if(distance > 500)
 			{
-				if()
-				return true;
+				NoFuel();
+				Mileage += 500;
 			}
-			else
-			{
-				return false;
-			}
+			else Mileage += distance;
 		}
 
-		public double Move(double hours)
-		{
-			return hours * CurrentSpeed;
-		}
+		public double Move(double hours) => hours * CurrentSpeed;
 
-		public void DisplayTransportMileage()
+		public void DisplayTransportMileage() 
+			=> Console.WriteLine("Пробег легкового автомобиля равен " + Mileage);
+
+		public void Refill(string flueType)
 		{
-			Console.WriteLine("Пробег легкового автомобиля равен " + Mileage);
+			if(flueType == "92й бензин" && flueType == "95й бензин")
+				FuelType = flueType;
+			else 
+				Console.WriteLine("Заправьтесь одним из двух типов топлива: " +
+					"'95й бензин' или '92й бензин'");
 		}
 	}
 }
