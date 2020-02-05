@@ -1,7 +1,15 @@
 ﻿namespace Cars
 {
+	/// <summary>
+	/// Делегат
+	/// </summary>
+	public delegate void MessageCallbackDelegate();
+
 	public interface ITransport
 	{
+		/// <summary>Событие, возникающее, когда заканчивается топливо.</summary>
+		event MessageCallbackDelegate NoFuel;
+
 		/// <summary>Регистрационный номер транспорта.</summary>
 		int RegistrationNumber { get; set; }
 

@@ -104,15 +104,12 @@ namespace Cars
 			}
 		}
 
-		/// <summary>
-		/// Делегат
-		/// </summary>
-		public delegate void MethodContainer();
+
 
 		/// <summary>
 		/// Событие, возникающее, когда заканчивается топливо.
 		/// </summary>
-		public event MethodContainer NoFuel;
+		public event MessageCallbackDelegate NoFuel;
 
 		public void Go(double hours)
 		{
