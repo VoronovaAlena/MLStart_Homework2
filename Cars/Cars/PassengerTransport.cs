@@ -7,6 +7,8 @@ namespace Cars
 	/// </summary>
 	public class PassengerTransport : ITransport
 	{
+		private const int EXTRA_SPEED = 10;
+
 		public int RegistrationNumber { get; set; }
 
 		private string _flueType;
@@ -14,35 +16,43 @@ namespace Cars
 		{
 			set
 			{
-				if(value == "95й бензин") _flueType = value;
-				else if(value == "92й бензин") _flueType = value;
+				if(value == "95й бензин" || value == "92й бензин") _flueType = value;
 			}
 			get => _flueType;
 		}
 
 		private double _currentSpeed;
-		public double CurrentSpeed 
+		public double CurrentSpeed
 		{
 			set
 			{
-				if(value > 0 && value <= 100)
+				if(value > 0 && value <= MaxSpeed)
 				{
-					if(_flueType == "95й бензин")
-						_currentSpeed = value + 10;
-					else _currentSpeed = value;
+					_currentSpeed = value;
 				}
 			}
-			get => _currentSpeed;
+			get
+			{
+				var extraSpeed = FuelType == "95й бензин" ? EXTRA_SPEED : 0;
+				return _currentSpeed + extraSpeed;
+			}
 		}
 
 		private double _maxSpeed;
-		public double MaxSpeed 
+		public double MaxSpeed
 		{
 			set
 			{
-				if(value > 0 && value < 100) _maxSpeed = value;
+				var extraSpeed = FuelType == "95й бензин" ? EXTRA_SPEED : 0;
+
+				if(value > 0 && value <= 100 + extraSpeed) _maxSpeed = value;
 			}
-			get => _maxSpeed;
+			get
+			{
+				var extraSpeed = FuelType == "95й бензин" ? EXTRA_SPEED : 0;
+
+				return _maxSpeed + extraSpeed;
+			}
 		}
 		public double Mileage { get ; set; }
 
@@ -75,8 +85,8 @@ namespace Cars
 		{
 			RegistrationNumber = registrationNumber;
 			FuelType           = fuelType;
-			CurrentSpeed       = currentSpeed;
 			MaxSpeed           = maxSpeed;
+			CurrentSpeed       = currentSpeed;
 			Mileage            = mileage;
 		}
 
