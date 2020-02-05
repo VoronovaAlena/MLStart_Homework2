@@ -99,19 +99,14 @@ namespace Cars
             Console.WriteLine("Пробег легкового автомобиля равен " + Mileage);
 
         /// <summary>
-        /// Делегат
-        /// </summary>
-        public delegate void MethodContainer();
-
-        /// <summary>
         /// Событие, возникающее, когда заканчивается топливо.
         /// </summary>
-        public event MethodContainer NoFuel;
+        public event MessageCallbackDelegate NoFuel;
 
         /// <summary>
         /// Событие, которое возникает при движении автобуса и когда пассажиров больше 20.
         /// </summary>
-        public event MethodContainer MaxPassengers;
+        public event MessageCallbackDelegate MaxPassengers;
 
         public void Go(double hours)
         {
