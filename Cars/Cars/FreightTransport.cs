@@ -51,7 +51,8 @@ namespace Cars
 		{
 			set
 			{
-				if(value < 0 && value > 10) _cargo = value;
+				if(value < 0 && value >= 10)
+					_cargo = value;
 			}
 			get => _cargo;
 		}
