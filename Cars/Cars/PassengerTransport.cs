@@ -7,7 +7,17 @@ namespace Cars
 	/// </summary>
 	public class PassengerTransport : ITransport
 	{
-		private const int EXTRA_SPEED = 10;
+		/// <summary>Прибавка для скорости</summary>
+		private const double EXTRA_SPEED = 10;
+		/// <summary>Максимальный пробег или ёмкость бака.</summary>
+		///<remarks>
+		///Можно было вынести его как свойство только для чтения (только get) в интерфейс, но мне лень.
+		///Выглядело бы для этого класса так: public double MaxMileage => 500;
+		///</remarks>
+		private const double MAX_MILEAGE = 500;
+
+		/// <summary>Количество топлива.</summary>
+		private double _fuel;
 
 		public int RegistrationNumber { get; set; }
 
@@ -66,6 +76,9 @@ namespace Cars
 			CurrentSpeed       = 0;
 			MaxSpeed           = 100;
 			Mileage            = 0;
+
+			// заправили тачку
+			FillFuel();
 		}
 
 		/// <summary>
@@ -81,7 +94,7 @@ namespace Cars
 			double currentSpeed,
 			double maxSpeed,
 			string fuelType,
-			double mileage)
+			double mileage) : this()
 		{
 			RegistrationNumber = registrationNumber;
 			FuelType           = fuelType;
@@ -111,18 +124,25 @@ namespace Cars
 		/// </summary>
 		public event MessageCallbackDelegate NoFuel;
 
+		// Это должен был быть метод "Move"...
 		public void Go(double hours)
 		{
-			var distance = hours * CurrentSpeed;
-			
-			if(distance > 500)
+			//пройденное расстояние с учётом оставшегося топлива.
+			var distance = Move(hours) <= _fuel
+				? Move(hours) : _fuel;
+
+			_fuel -= distance;
+
+			//Проверяем не пройденное расстояние, а оставшееся топливо.
+			if(_fuel == 0)
 			{
 				NoFuel();
-				Mileage += 500;
 			}
-			else Mileage += distance;
+
+			Mileage += distance;
 		}
 
+		// Зачем он нужен здесь? Можно было бы тогда сделать его private...
 		public double Move(double hours) => hours * CurrentSpeed;
 
 		public void DisplayTransportMileage() 
@@ -130,11 +150,20 @@ namespace Cars
 
 		public void Refill(string flueType)
 		{
-			if(flueType == "92й бензин" && flueType == "95й бензин")
+			// разве топливо может одновременно быть 92 и 95 бензином? Логичнее использовать в условии оператор "ИЛИ"
+			//if(flueType == "92й бензин" && flueType == "95й бензин")
+			if(flueType == "92й бензин" || flueType == "95й бензин")
+			{
 				FuelType = flueType;
+				//Заправились
+				FillFuel();
+			}
 			else 
 				Console.WriteLine("Заправьтесь одним из двух типов топлива: " +
 					"'95й бензин' или '92й бензин'");
 		}
+
+		/// <summary>Заправляет машину до полного бака.</summary>
+		private void FillFuel() => _fuel = MAX_MILEAGE;
 	}
 }
