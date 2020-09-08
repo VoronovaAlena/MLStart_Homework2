@@ -7,6 +7,18 @@ namespace Cars
 	/// </summary>
 	public class PassengerTransport : ITransport
 	{
+		/// <summary>Прибавка для скорости</summary>
+		private const double EXTRA_SPEED = 10;
+		/// <summary>Максимальный пробег или ёмкость бака.</summary>
+		///<remarks>
+		///Можно было вынести его как свойство только для чтения (только get) в интерфейс, но мне лень.
+		///Выглядело бы для этого класса так: public double MaxMileage => 500;
+		///</remarks>
+		private const double MAX_MILEAGE = 500;
+
+		/// <summary>Количество топлива.</summary>
+		private double _fuel;
+
 		public int RegistrationNumber { get; set; }
 
 		private string _flueType;
@@ -14,35 +26,43 @@ namespace Cars
 		{
 			set
 			{
-				if(value == "95й бензин") _flueType = value;
-				else if(value == "92й бензин") _flueType = value;
+				if(value == "95й бензин" || value == "92й бензин") _flueType = value;
 			}
 			get => _flueType;
 		}
 
 		private double _currentSpeed;
-		public double CurrentSpeed 
+		public double CurrentSpeed
 		{
 			set
 			{
-				if(value > 0 && value <= 100)
+				if(value > 0 && value <= MaxSpeed)
 				{
-					if(_flueType == "95й бензин")
-						_currentSpeed = value + 10;
-					else _currentSpeed = value;
+					_currentSpeed = value;
 				}
 			}
-			get => _currentSpeed;
+			get
+			{
+				var extraSpeed = FuelType == "95й бензин" ? EXTRA_SPEED : 0;
+				return _currentSpeed + extraSpeed;
+			}
 		}
 
 		private double _maxSpeed;
-		public double MaxSpeed 
+		public double MaxSpeed
 		{
 			set
 			{
-				if(value > 0 && value < 100) _maxSpeed = value;
+				var extraSpeed = FuelType == "95й бензин" ? EXTRA_SPEED : 0;
+
+				if(value > 0 && value <= 100 + extraSpeed) _maxSpeed = value;
 			}
-			get => _maxSpeed;
+			get
+			{
+				var extraSpeed = FuelType == "95й бензин" ? EXTRA_SPEED : 0;
+
+				return _maxSpeed + extraSpeed;
+			}
 		}
 		public double Mileage { get ; set; }
 
@@ -56,6 +76,9 @@ namespace Cars
 			CurrentSpeed       = 0;
 			MaxSpeed           = 100;
 			Mileage            = 0;
+
+			// заправили тачку
+			FillFuel();
 		}
 
 		/// <summary>
@@ -71,12 +94,12 @@ namespace Cars
 			double currentSpeed,
 			double maxSpeed,
 			string fuelType,
-			double mileage)
+			double mileage) : this()
 		{
 			RegistrationNumber = registrationNumber;
 			FuelType           = fuelType;
-			CurrentSpeed       = currentSpeed;
 			MaxSpeed           = maxSpeed;
+			CurrentSpeed       = currentSpeed;
 			Mileage            = mileage;
 		}
 
@@ -94,28 +117,32 @@ namespace Cars
 			}
 		}
 
-		/// <summary>
-		/// Делегат
-		/// </summary>
-		public delegate void MethodContainer();
+
 
 		/// <summary>
 		/// Событие, возникающее, когда заканчивается топливо.
 		/// </summary>
-		public event MethodContainer NoFuel;
+		public event MessageCallbackDelegate NoFuel;
 
+		// Это должен был быть метод "Move"...
 		public void Go(double hours)
 		{
-			var distance = hours * CurrentSpeed;
-			
-			if(distance > 500)
+			//пройденное расстояние с учётом оставшегося топлива.
+			var distance = Move(hours) <= _fuel
+				? Move(hours) : _fuel;
+
+			_fuel -= distance;
+
+			//Проверяем не пройденное расстояние, а оставшееся топливо.
+			if(_fuel == 0)
 			{
 				NoFuel();
-				Mileage += 500;
 			}
-			else Mileage += distance;
+
+			Mileage += distance;
 		}
 
+		// Зачем он нужен здесь? Можно было бы тогда сделать его private...
 		public double Move(double hours) => hours * CurrentSpeed;
 
 		public void DisplayTransportMileage() 
@@ -123,11 +150,20 @@ namespace Cars
 
 		public void Refill(string flueType)
 		{
-			if(flueType == "92й бензин" && flueType == "95й бензин")
+			// разве топливо может одновременно быть 92 и 95 бензином? Логичнее использовать в условии оператор "ИЛИ"
+			//if(flueType == "92й бензин" && flueType == "95й бензин")
+			if(flueType == "92й бензин" || flueType == "95й бензин")
+			{
 				FuelType = flueType;
+				//Заправились
+				FillFuel();
+			}
 			else 
 				Console.WriteLine("Заправьтесь одним из двух типов топлива: " +
 					"'95й бензин' или '92й бензин'");
 		}
+
+		/// <summary>Заправляет машину до полного бака.</summary>
+		private void FillFuel() => _fuel = MAX_MILEAGE;
 	}
 }
