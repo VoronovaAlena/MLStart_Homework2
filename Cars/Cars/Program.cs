@@ -27,14 +27,14 @@ namespace Cars
 			//Подписка на событие MaxPassengers
 			bus.MaxPassengers += Message.ShowMaxPassengers;
 
-			var freight = new FreightTransport(
-				369,
-				65,
-				95,
-				"95й бензин",
-				5,
-				50);
-			freight.NoFuel += Message.ShowNoFlue;
+			//var freight = new FreightTransport(
+			//	369,
+			//	65,
+			//	95,
+			//	"95й бензин",
+			//	5,
+			//	50);
+			//freight.NoFuel += Message.ShowNoFlue;
 
 
 			Console.ReadKey();
